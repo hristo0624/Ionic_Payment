@@ -1,0 +1,18 @@
+FROM mhart/alpine-node:10
+
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+RUN echo Installing source NPM dependencies...
+RUN npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+RUN npm config set "//npm.fontawesome.com/:_authToken" 5338582C-6DD0-43D7-A8D5-ADD98D3DF3CB
+
+COPY package.json /app/package.json
+COPY package-lock.json /app/package-lock.json
+
+RUN npm install
+RUN npm install react-scripts@3.0.1 ionic@latest typescript -g
+
+# CMD ["ionic", "serve"]
